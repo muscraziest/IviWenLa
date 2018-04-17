@@ -40,20 +40,19 @@ public class MainActivity extends VoiceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_view);
-
         initSpeechInputOutput(this);
         setSpeakButton();
+
+
+        luz_techo_1 = 0;
+        luz_techo_2 = 0;
+        luz_lectura = 0;
+        luz_regulable = 0;
+        abrir_puerta = 0;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.menu_settings:
-                Intent i = new Intent(this, UserSettingsActivity.class);
-                startActivity(i);
-                break;
-        }
 
         return true;
     }
@@ -66,20 +65,12 @@ public class MainActivity extends VoiceActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
+    /////////////////////////////////////////////////////////////////////////////////////
+    ///                                  TÁCTIL                                          ///
+    /////////////////////////////////////////////////////////////////////////////////////
 
-    void dosisDiaria(){
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        int peso = Integer.parseInt(sharedPrefs.getString("pesoUsuario", "NULL"));
-
-        dosis_diaria = (int)(peso*0.4);
-        dosis_mañana = dosis_diaria*2/3;
-        dosis_noche = dosis_diaria/3;
-    }
 
     /////////////////////////////////////////////////////////////////////////////////////
     ///                                  VOZ                                          ///
@@ -173,13 +164,18 @@ public class MainActivity extends VoiceActivity {
 /*
         if(nBestList != null){
 
-            t_nivel = (TextView)findViewById(R.id.nivel);
-            t_accion = (TextView)findViewById(R.id.accion);
-            icono = (ImageView)findViewById(R.id.icono);
-            int nivel = Integer.parseInt(nBestList.get(0));
-            dosisDiaria();
+            //Si es consultar el estado
+            if(nBestList.get(0) == "Consultar estado"){
 
-            t_nivel.setText("Su nivel de azúcar es "+Integer.toString(nivel));
+                luz_lectura = getResources().getValue("switch_lectura");
+
+                try {
+                    speak("Su nivel de azúcar es " + nBestList.get(0), "ES", ID_PROMPT_INFO);
+                } catch (Exception e) {
+                    Log.e(LOGTAG, "TTS not accessible");
+                }
+            }
+
 
             try {
                 speak("Su nivel de azúcar es " + nBestList.get(0), "ES", ID_PROMPT_INFO);
@@ -249,7 +245,7 @@ public class MainActivity extends VoiceActivity {
 
     @Override
     public void processAsrError(int errorCode) {
-/*
+
         //Possible bug in Android SpeechRecognizer: NO_MATCH errors even before the the ASR
         // has even tried to recognized. We have adopted the solution proposed in:
         // http://stackoverflow.com/questions/31071650/speechrecognizer-throws-onerror-on-the-first-listening
@@ -261,13 +257,13 @@ public class MainActivity extends VoiceActivity {
             String errorMsg = "";
             switch (errorCode) {
                 case SpeechRecognizer.ERROR_AUDIO:
-                    errorMsg = "Audio recording error";
+                    errorMsg = "Error al grabar audio";
                 case SpeechRecognizer.ERROR_CLIENT:
-                    errorMsg = "Unknown client side error";
+                    errorMsg = "Error desconocido";
                 case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
-                    errorMsg = "Insufficient permissions";
+                    errorMsg = "Permisos insofucientes";
                 case SpeechRecognizer.ERROR_NETWORK:
-                    errorMsg = "Network related error";
+                    errorMsg = "Error de red";
                 case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
                     errorMsg = "Network operation timed out";
                 case SpeechRecognizer.ERROR_NO_MATCH:
@@ -284,7 +280,7 @@ public class MainActivity extends VoiceActivity {
             if (errorMsg != "") {
                 this.runOnUiThread(new Runnable() { //Toasts must be in the main thread
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Speech recognition error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Error de reconocimiento de voz", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -296,7 +292,6 @@ public class MainActivity extends VoiceActivity {
                 }
             }
         }
-        */
     }
 
     @Override
