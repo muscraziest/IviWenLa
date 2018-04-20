@@ -47,6 +47,7 @@ public class MainActivity extends VoiceActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+/*
         switch (item.getItemId()) {
 
             case R.id.menu_settings:
@@ -54,7 +55,7 @@ public class MainActivity extends VoiceActivity {
                 startActivity(i);
                 break;
         }
-
+*/
         return true;
     }
 
