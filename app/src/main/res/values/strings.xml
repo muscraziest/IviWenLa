@@ -6,7 +6,7 @@
     <!-- Strings related to main menu -->
     <string name="consulta_estado">Consultar el estado de la casa</string>
     <string name="consulta_opciones">Abrir el menú de opciones</string>
-
+    <string name="opciones">Modificar estado</string>
 
     <!-- Strings related to Settings -->
     <string name="luces_techo">Luces del techo</string>
