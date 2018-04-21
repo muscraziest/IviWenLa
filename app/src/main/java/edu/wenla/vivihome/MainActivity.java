@@ -103,49 +103,53 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
             @Override
             public void onClick(View v){
 
-                String msg_techo;
-                String msg_lectura;
-                String msg_regulable;
-                String msg_puerta;
+                if(!mensaje.isShown()) {
+                    String msg_techo;
+                    String msg_lectura;
+                    String msg_regulable;
+                    String msg_puerta;
 
-                if (techo.isChecked())
-                    msg_techo = getResources().getString(R.string.mensaje_techo) + " encendidas.";
-                else
-                    msg_techo = getResources().getString(R.string.mensaje_techo) + " apagadas.";
+                    if (techo.isChecked())
+                        msg_techo = getResources().getString(R.string.mensaje_techo) + " encendidas.";
+                    else
+                        msg_techo = getResources().getString(R.string.mensaje_techo) + " apagadas.";
 
-                if (lectura.isChecked())
-                    msg_lectura = getResources().getString(R.string.mensaje_lectura) + " encendida.";
-                else
-                    msg_lectura = getResources().getString(R.string.mensaje_lectura) + " apagada.";
+                    if (lectura.isChecked())
+                        msg_lectura = getResources().getString(R.string.mensaje_lectura) + " encendida.";
+                    else
+                        msg_lectura = getResources().getString(R.string.mensaje_lectura) + " apagada.";
 
-                if (regulable.isChecked())
-                    msg_regulable = getResources().getString(R.string.mensaje_regulable) + " encendida.";
-                else
-                    msg_regulable = getResources().getString(R.string.mensaje_regulable) + " apagada.";
+                    if (regulable.isChecked())
+                        msg_regulable = getResources().getString(R.string.mensaje_regulable) + " encendida.";
+                    else
+                        msg_regulable = getResources().getString(R.string.mensaje_regulable) + " apagada.";
 
-                if (puerta.isChecked())
-                    msg_puerta = getResources().getString(R.string.mensaje_puerta) + " abierta.";
-                else
-                    msg_puerta = getResources().getString(R.string.mensaje_puerta) + " cerrada.";
+                    if (puerta.isChecked())
+                        msg_puerta = getResources().getString(R.string.mensaje_puerta) + " abierta.";
+                    else
+                        msg_puerta = getResources().getString(R.string.mensaje_puerta) + " cerrada.";
 
 
-                if(techo.isShown()){
-                    techo.setVisibility(View.INVISIBLE);
-                    lectura.setVisibility(View.INVISIBLE);
-                    regulable.setVisibility(View.INVISIBLE);
-                    puerta.setVisibility(View.INVISIBLE);
+                    if (techo.isShown()) {
+                        techo.setVisibility(View.INVISIBLE);
+                        lectura.setVisibility(View.INVISIBLE);
+                        regulable.setVisibility(View.INVISIBLE);
+                        puerta.setVisibility(View.INVISIBLE);
+                    }
+
+                    mensaje.setVisibility(View.VISIBLE);
+                    mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n" + msg_puerta);
+
+                    try {
+                        speak(msg_techo + ". " + msg_lectura + ". " + msg_regulable + ". " + msg_puerta, "ES", ID_PROMPT_INFO);
+
+                    } catch (Exception e) {
+                        Log.e(LOGTAG, "TTS not accessible");
+                    }
                 }
 
-                mensaje.setVisibility(View.VISIBLE);
-                mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n" + msg_puerta);
-
-                try{
-                    speak(msg_techo + ". " + msg_lectura + ". " + msg_regulable + ". " + msg_puerta, "ES", ID_PROMPT_INFO);
-
-                }
-                catch (Exception e) {
-                    Log.e(LOGTAG, "TTS not accessible");
-                }
+                else
+                    mensaje.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -167,7 +171,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
     private void setSpeakButton() {
         // gain reference to speak button
-        Button speak = (Button) findViewById(R.id.speech_btn);
+        ImageButton speak = (ImageButton) findViewById(R.id.speech_btn);
         speak.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
