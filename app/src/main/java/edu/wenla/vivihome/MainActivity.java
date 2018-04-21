@@ -19,8 +19,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -33,15 +36,14 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
     private static Integer ID_PROMPT_QUERY = 0;
     private static Integer ID_PROMPT_INFO = 1;
     private long startListeningTime = 0;
-    TextView t_nivel, t_accion;
-    ImageView icono;
+
+    private TextView mensaje;
+
     //Variables para los ajustes
     private static final int RESULT_SETTINGS = 1;
-    private int luz_techo_1;
-    private int luz_techo_2;
-    private int luz_lectura;
-    private int luz_regulable;
-    private int abrir_puerta;
+    private Button opciones, consultar;
+    private Boolean techo, lectura, regulable, puerta;
+    private String mes_lectura;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,23 +51,22 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
         setContentView(R.layout.main_view);
         initSpeechInputOutput(this);
         setSpeakButton();
+        mensaje = (TextView)findViewById(R.id.vivi_message);
 
-
-        luz_techo_1 = 0;
-        luz_techo_2 = 0;
-        luz_lectura = 0;
-        luz_regulable = 0;
-        abrir_puerta = 0;
-
-        controlador();
+        openSettings();
+        checkState();
     }
 
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    ///                                  TÁCTIL                                       ///
+    /////////////////////////////////////////////////////////////////////////////////////
     @TargetApi(VERSION_CODES.M)
-    public void controlador(){
+    public void openSettings(){
 
-        Button entry = findViewById(R.id.settings_btn);
+        opciones = findViewById(R.id.settings_btn);
 
-        entry.setOnClickListener(new View.OnClickListener() {
+        opciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 Intent opciones = new Intent(getApplicationContext(),SettingsActivity.class);
@@ -75,37 +76,42 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public void checkState(){
 
-        //if(item.getItemId() == R.id.){
-            return true;
+        consultar = findViewById(R.id.state_btn);
 
-            //Intent about = new Intent(getApplicationContext(),About.class)
-            //startActivity(about);
-            //return true;
-        //}
+        consultar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+/*
+                techo = getIntent().getExtras().getBoolean("techo");
+                lectura = getIntent().getExtras().getBoolean("lectura");
+                regulable = getIntent().getExtras().getBoolean("regulable");
+                puerta = getIntent().getExtras().getBoolean("puerta");
 
-        //return super.onOptionsItemSelected(item);
+                if(lectura) {
+                    luz_lectura = 1;
+                    mes_lectura = "La luz de lectura está encendida";
+                }
+
+                else{
+                        luz_lectura = 0;
+                        mes_lectura = "La luz de lectura está apagada";
+                }
+
+                mensaje.setText(mes_lectura);
+                */
+            mensaje.setText("CONSULTAAAAAANDOOOOO");
+
+            }
+        });
     }
-
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         shutdown();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        //getMenuInflater().inflate(R.menu.options,menu);
-        return true;
-    }
-    /////////////////////////////////////////////////////////////////////////////////////
-    ///                                  TÁCTIL                                          ///
-    /////////////////////////////////////////////////////////////////////////////////////
-
 
     /////////////////////////////////////////////////////////////////////////////////////
     ///                                  VOZ                                          ///
@@ -196,81 +202,23 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
     @Override
     public void processAsrResults(ArrayList<String> nBestList, float[] nBestConfidences) {
-/*
+
         if(nBestList != null){
 
             //Si es consultar el estado
-            if(nBestList.get(0) == "Consultar estado"){
-
-                luz_lectura = getResources().getValue("switch_lectura");
+            if(nBestList.get(0) == "Modificar estado"){
 
                 try {
-                    speak("Su nivel de azúcar es " + nBestList.get(0), "ES", ID_PROMPT_INFO);
+                    speak("Esta es la pantanlla de control de tus dispositivos. ¿Qué quieres hacer? " + nBestList.get(0), "ES", ID_PROMPT_INFO);
+                    Intent opciones = new Intent(getApplicationContext(),SettingsActivity.class);
+                    startActivity(opciones);
                 } catch (Exception e) {
                     Log.e(LOGTAG, "TTS not accessible");
                 }
             }
 
-
-            try {
-                speak("Su nivel de azúcar es " + nBestList.get(0), "ES", ID_PROMPT_INFO);
-            } catch (Exception e) {
-                Log.e(LOGTAG, "TTS not accessible");
-            }
-
-            if (nivel > 145) {
-
-                t_accion.setText("Póngase en contacto con su médico");
-                icono.setImageResource(R.drawable.erojo);
-
-                try {
-                    speak(getResources().getString(R.string.mensaje_azucar_alta), "ES", ID_PROMPT_INFO);
-                } catch (Exception e) {
-                    Log.e(LOGTAG, "TTS not accessible");
-                }
-
-            }
-
-            else if (nivel >= 100 && nivel <= 145) {
-
-                t_accion.setText("Tomar "+dosis_mañana+" unidades por la mañana y "+dosis_noche+ " unidades por la noche, antes de desayunar y cenar");
-                icono.setImageResource(R.drawable.amari);
-
-                try {
-                    speak("Su nivel de azúcar está un poco alto. Debe tomar "+dosis_mañana+" unidades de insulina por la mañana y "+dosis_noche+ " unidades por la noche, antes de desayunar y cenar","ES", ID_PROMPT_INFO);
-                } catch (Exception e) {
-                    Log.e(LOGTAG, "TTS not accessible");
-                }
-
-            }
-
-            else if (nivel < 100 && nivel >= 70) {
-
-                t_accion.setText("Tomar "+dosis_mañana+" unidades por la mañana antes de desayunar");
-                icono.setImageResource(R.drawable.verde);
-
-                try {
-                    speak("Su nivel de azúcar es normal. Debe tomar "+dosis_mañana+" unidades de insulina por la mañana antes de desayunar","ES", ID_PROMPT_INFO);
-                } catch (Exception e) {
-                    Log.e(LOGTAG, "TTS not accessible");
-                }
-
-            }
-
-            else {
-
-                t_accion.setText("Tomar "+dosis_mañana+" unidades y un vaso de agua con azúcar antes de desayunar");
-                icono.setImageResource(R.drawable.amari);
-
-                try {
-                    speak("Su nivel de azúcar está un poco bajo. Debe tomar "+dosis_mañana+" unidades de insulina y un vaso de agua con azúcar antes de desayunar","ES", ID_PROMPT_INFO);
-                } catch (Exception e) {
-                    Log.e(LOGTAG, "TTS not accessible");
-                }
-
-            }
         }
-        */
+
     }
 
     @Override
