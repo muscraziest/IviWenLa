@@ -32,18 +32,19 @@ import static android.view.View.*;
 
 public class MainActivity extends VoiceActivity implements View.OnClickListener {
 
+    //Variables para actividad por voz
     private static final String LOGTAG = "TALKBACK";
     private static Integer ID_PROMPT_QUERY = 0;
     private static Integer ID_PROMPT_INFO = 1;
     private long startListeningTime = 0;
-
-    private TextView mensaje;
+    private boolean primera_vez;
 
     //Variables para los ajustes
     private static final int RESULT_SETTINGS = 1;
     private Button opciones, consultar;
-    private Boolean techo, lectura, regulable, puerta;
-    private String mes_lectura;
+    private Switch techo, lectura, regulable, puerta;
+    private TextView mensaje;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,13 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
         initSpeechInputOutput(this);
         setSpeakButton();
         mensaje = (TextView)findViewById(R.id.vivi_message);
+
+        primera_vez = true;
+
+        techo = (Switch)findViewById(R.id.switch_techo);
+        lectura = (Switch)findViewById(R.id.switch_lectura);
+        regulable = (Switch)findViewById(R.id.switch_regulable);
+        puerta = (Switch)findViewById(R.id.switch_puerta);
 
         openSettings();
         checkState();
@@ -69,10 +77,21 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
         opciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent opciones = new Intent(getApplicationContext(),SettingsActivity.class);
-                startActivity(opciones);
-            }
 
+                if(!techo.isShown()) {
+                    mensaje.setVisibility(View.INVISIBLE);
+                    techo.setVisibility(View.VISIBLE);
+                    lectura.setVisibility(View.VISIBLE);
+                    regulable.setVisibility(View.VISIBLE);
+                    puerta.setVisibility(View.VISIBLE);
+                }
+                else {
+                    techo.setVisibility(View.INVISIBLE);
+                    lectura.setVisibility(View.INVISIBLE);
+                    regulable.setVisibility(View.INVISIBLE);
+                    puerta.setVisibility(View.INVISIBLE);
+                }
+            }
         });
     }
 
@@ -83,25 +102,42 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
         consultar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-/*
-                techo = getIntent().getExtras().getBoolean("techo");
-                lectura = getIntent().getExtras().getBoolean("lectura");
-                regulable = getIntent().getExtras().getBoolean("regulable");
-                puerta = getIntent().getExtras().getBoolean("puerta");
 
-                if(lectura) {
-                    luz_lectura = 1;
-                    mes_lectura = "La luz de lectura está encendida";
+                String msg_techo;
+                String msg_lectura;
+                String msg_regulable;
+                String msg_puerta;
+
+                if (techo.isChecked())
+                    msg_techo = getResources().getString(R.string.mensaje_techo) + " encendidas.";
+                else
+                    msg_techo = getResources().getString(R.string.mensaje_techo) + " apagadas.";
+
+                if (lectura.isChecked())
+                    msg_lectura = getResources().getString(R.string.mensaje_lectura) + " encendida.";
+                else
+                    msg_lectura = getResources().getString(R.string.mensaje_lectura) + " apagada.";
+
+                if (regulable.isChecked())
+                    msg_regulable = getResources().getString(R.string.mensaje_regulable) + " encendida.";
+                else
+                    msg_regulable = getResources().getString(R.string.mensaje_regulable) + " apagada.";
+
+                if (puerta.isChecked())
+                    msg_puerta = getResources().getString(R.string.mensaje_puerta) + " abierta.";
+                else
+                    msg_puerta = getResources().getString(R.string.mensaje_puerta) + " cerrada.";
+
+
+                if(techo.isShown()){
+                    techo.setVisibility(View.INVISIBLE);
+                    lectura.setVisibility(View.INVISIBLE);
+                    regulable.setVisibility(View.INVISIBLE);
+                    puerta.setVisibility(View.INVISIBLE);
                 }
 
-                else{
-                        luz_lectura = 0;
-                        mes_lectura = "La luz de lectura está apagada";
-                }
-
-                mensaje.setText(mes_lectura);
-                */
-            mensaje.setText("CONSULTAAAAAANDOOOOO");
+                mensaje.setVisibility(View.VISIBLE);
+                mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n" + msg_puerta);
 
             }
         });
@@ -130,7 +166,12 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
             public void onClick(View v) {
                 //Ask the user to speak
                 try {
-                    speak(getResources().getString(R.string.mensaje_inicial), "ES", ID_PROMPT_QUERY);
+                    if(primera_vez) {
+                        speak(getResources().getString(R.string.mensaje_inicial), "ES", ID_PROMPT_QUERY);
+                        primera_vez = false;
+                    }
+                    else
+                        speak("¿Quieres consultar o modificar tus dispositivos?", "ES", ID_PROMPT_QUERY);
                 } catch (Exception e) {
                     Log.e(LOGTAG, "TTS not accessible");
                 }
@@ -205,21 +246,286 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
         if(nBestList != null){
 
-            //Si es consultar el estado
             if(nBestList.get(0) == "Modificar estado"){
 
                 try {
-                    speak("Esta es la pantanlla de control de tus dispositivos. ¿Qué quieres hacer? " + nBestList.get(0), "ES", ID_PROMPT_INFO);
-                    Intent opciones = new Intent(getApplicationContext(),SettingsActivity.class);
-                    startActivity(opciones);
+                    speak("Esta es la pantalla de control de tus dispositivos. ¿Qué quieres hacer?", "ES", ID_PROMPT_INFO);
+                    techo.setVisibility(View.VISIBLE);
+                    lectura.setVisibility(View.VISIBLE);
+                    regulable.setVisibility(View.VISIBLE);
+                    puerta.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
                     Log.e(LOGTAG, "TTS not accessible");
                 }
             }
 
-        }
+            if(nBestList.get(0) == "Consultar estado"){
 
+                try {
+                    String msg_techo;
+                    String msg_lectura;
+                    String msg_regulable;
+                    String msg_puerta;
+
+                    if (techo.isChecked())
+                        msg_techo = getResources().getString(R.string.mensaje_techo) + " encendidas.";
+                    else
+                        msg_techo = getResources().getString(R.string.mensaje_techo) + " apagadas.";
+
+                    if (lectura.isChecked())
+                        msg_lectura = getResources().getString(R.string.mensaje_lectura) + " encendida.";
+                    else
+                        msg_lectura = getResources().getString(R.string.mensaje_lectura) + " apagada.";
+
+                    if (regulable.isChecked())
+                        msg_regulable = getResources().getString(R.string.mensaje_regulable) + " encendida.";
+                    else
+                        msg_regulable = getResources().getString(R.string.mensaje_regulable) + " apagada.";
+
+                    if (puerta.isChecked())
+                        msg_puerta = getResources().getString(R.string.mensaje_puerta) + " abierta.";
+                    else
+                        msg_puerta = getResources().getString(R.string.mensaje_puerta) + " cerrada.";
+
+
+                    if(techo.isShown()){
+                        techo.setVisibility(View.INVISIBLE);
+                        lectura.setVisibility(View.INVISIBLE);
+                        regulable.setVisibility(View.INVISIBLE);
+                        puerta.setVisibility(View.INVISIBLE);
+                    }
+
+                    mensaje.setVisibility(View.VISIBLE);
+                    mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n" + msg_puerta);
+
+
+                    speak(msg_techo + ". " + msg_lectura + ". " + msg_regulable + ". " + msg_puerta, "ES", ID_PROMPT_INFO);
+
+                } catch (Exception e) {
+                    Log.e(LOGTAG, "TTS not accessible");
+                }
+            }
+
+
+
+            else if(nBestList.get(0) == "Enciende la luz del techo") {
+
+                techo.setVisibility(View.VISIBLE);
+                lectura.setVisibility(View.VISIBLE);
+                regulable.setVisibility(View.VISIBLE);
+                puerta.setVisibility(View.VISIBLE);
+
+                try {
+
+                    if (!techo.isChecked()) {
+
+                        techo.setChecked(true);
+                        speak(getResources().getString(R.string.mensaje_encender_techo), "ES", ID_PROMPT_INFO);
+                    }
+
+                    else
+                        speak("Las luces del techo ya están encendidas", "ES", ID_PROMPT_INFO);
+
+                }
+                catch(Exception e){
+                        Log.e(LOGTAG, "TTS not accessible");
+
+                }
+            }
+
+            else if(nBestList.get(0) == "Apaga la luz del techo") {
+
+                techo.setVisibility(View.VISIBLE);
+                lectura.setVisibility(View.VISIBLE);
+                regulable.setVisibility(View.VISIBLE);
+                puerta.setVisibility(View.VISIBLE);
+
+                try {
+
+                    if (techo.isChecked()) {
+
+                        techo.setChecked(true);
+                        speak(getResources().getString(R.string.mensaje_apagar_techo), "ES", ID_PROMPT_INFO);
+                    }
+
+                    else
+                        speak("Las luces del techo ya están apagadas", "ES", ID_PROMPT_INFO);
+
+                }
+                catch(Exception e){
+                    Log.e(LOGTAG, "TTS not accessible");
+
+                }
+            }
+
+            else if(nBestList.get(0) == "Enciende la luz de lectura") {
+
+                techo.setVisibility(View.VISIBLE);
+                lectura.setVisibility(View.VISIBLE);
+                regulable.setVisibility(View.VISIBLE);
+                puerta.setVisibility(View.VISIBLE);
+
+                try {
+
+                    if (!lectura.isChecked()) {
+
+                        lectura.setChecked(true);
+                        speak(getResources().getString(R.string.mensaje_encender_lectura), "ES", ID_PROMPT_INFO);
+                    }
+
+                    else
+                        speak("La luz de lectura ya está encendida", "ES", ID_PROMPT_INFO);
+
+                }
+                catch(Exception e){
+                    Log.e(LOGTAG, "TTS not accessible");
+
+                }
+            }
+
+            else if(nBestList.get(0) == "Apaga la luz de lectura") {
+
+                techo.setVisibility(View.VISIBLE);
+                lectura.setVisibility(View.VISIBLE);
+                regulable.setVisibility(View.VISIBLE);
+                puerta.setVisibility(View.VISIBLE);
+
+                try {
+
+                    if (lectura.isChecked()) {
+
+                        lectura.setChecked(true);
+                        speak(getResources().getString(R.string.mensaje_apagar_lectura), "ES", ID_PROMPT_INFO);
+                    }
+
+                    else
+                        speak("La luz de lectura ya está apagada", "ES", ID_PROMPT_INFO);
+
+                }
+                catch(Exception e){
+                    Log.e(LOGTAG, "TTS not accessible");
+
+                }
+            }
+
+            else if(nBestList.get(0) == "Enciende la luz regulable") {
+
+                techo.setVisibility(View.VISIBLE);
+                lectura.setVisibility(View.VISIBLE);
+                regulable.setVisibility(View.VISIBLE);
+                puerta.setVisibility(View.VISIBLE);
+
+                try {
+
+                    if (!regulable.isChecked()) {
+
+                        regulable.setChecked(true);
+                        speak(getResources().getString(R.string.mensaje_encender_regulable), "ES", ID_PROMPT_INFO);
+                    }
+
+                    else
+                        speak("La luz regulable ya está encendida", "ES", ID_PROMPT_INFO);
+
+                }
+                catch(Exception e){
+                    Log.e(LOGTAG, "TTS not accessible");
+
+                }
+            }
+
+            else if(nBestList.get(0) == "Apaga la luz regulable") {
+
+                techo.setVisibility(View.VISIBLE);
+                lectura.setVisibility(View.VISIBLE);
+                regulable.setVisibility(View.VISIBLE);
+                puerta.setVisibility(View.VISIBLE);
+
+                try {
+
+                    if (regulable.isChecked()) {
+
+                        regulable.setChecked(true);
+                        speak(getResources().getString(R.string.mensaje_apagar_regulable), "ES", ID_PROMPT_INFO);
+                    }
+
+                    else
+                        speak("La luz regulable ya esa apagada", "ES", ID_PROMPT_INFO);
+
+                }
+                catch(Exception e){
+                    Log.e(LOGTAG, "TTS not accessible");
+
+                }
+            }
+
+            else if(nBestList.get(0) == "Abre la puerta") {
+
+                techo.setVisibility(View.VISIBLE);
+                lectura.setVisibility(View.VISIBLE);
+                regulable.setVisibility(View.VISIBLE);
+                puerta.setVisibility(View.VISIBLE);
+
+                try {
+
+                    if (!puerta.isChecked()) {
+
+                        puerta.setChecked(true);
+                        speak(getResources().getString(R.string.mensaje_abrir_puerta), "ES", ID_PROMPT_INFO);
+                    }
+
+                    else
+                        speak("Las luces del techo ya están encendidas", "ES", ID_PROMPT_INFO);
+
+                }
+                catch(Exception e){
+                    Log.e(LOGTAG, "TTS not accessible");
+
+                }
+            }
+
+            else if(nBestList.get(0) == "Cierra la puerta") {
+
+                techo.setVisibility(View.VISIBLE);
+                lectura.setVisibility(View.VISIBLE);
+                regulable.setVisibility(View.VISIBLE);
+                puerta.setVisibility(View.VISIBLE);
+
+                try {
+
+                    if (puerta.isChecked()) {
+
+                        puerta.setChecked(true);
+                        speak(getResources().getString(R.string.mensaje_cerrar_puerta), "ES", ID_PROMPT_INFO);
+                    }
+
+                    else
+                        speak("La puerta ya está cerrada", "ES", ID_PROMPT_INFO);
+
+                }
+                catch(Exception e){
+                    Log.e(LOGTAG, "TTS not accessible");
+
+                }
+            }
+
+            else if(nBestList.get(0) == "Gracias") {
+
+                techo.setVisibility(View.VISIBLE);
+                lectura.setVisibility(View.VISIBLE);
+                regulable.setVisibility(View.VISIBLE);
+                puerta.setVisibility(View.VISIBLE);
+
+                try {
+                    speak("No hay de que.", "ES", ID_PROMPT_INFO);
+                }
+                catch(Exception e){
+                    Log.e(LOGTAG, "TTS not accessible");
+
+                }
+            }
+        }
     }
+
 
     @Override
     public void processAsrReadyForSpeech() {

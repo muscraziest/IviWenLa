@@ -2,6 +2,18 @@
     <string name="app_name">ViviHome</string>
     <!-- Mensaje de inicio de la app -->
     <string name="mensaje_inicial">Hola, soy Vivi tu asistente remoto de control del hogar. Puedes consultar el estado de tus dispositivos o modificarlos.</string>
+    <string name="mensaje_techo">Las luces del techo están </string>
+    <string name="mensaje_lectura">La luz de lectura está </string>
+    <string name="mensaje_regulable">La luz regulable está </string>
+    <string name="mensaje_puerta">La puerta está </string>
+    <string name="mensaje_encender_techo">He encendido las luces del techo.</string>
+    <string name="mensaje_apagar_techo">He apagado las luces del techo.</string>
+    <string name="mensaje_encender_lectura">He encendido la luz de lectura.</string>
+    <string name="mensaje_apagar_lectura">He apagado la luz de lectura.</string>
+    <string name="mensaje_encender_regulable">He encendido la luz regulable.</string>
+    <string name="mensaje_apagar_regulable">He apagado la luz regulable.</string>
+    <string name="mensaje_abrir_puerta">He abierto la puerta.</string>
+    <string name="mensaje_cerrar_puerta">He cerrado la puerta.</string>
 
     <!-- Strings related to main menu -->
     <string name="consulta_estado">Consultar el estado de la casa</string>
