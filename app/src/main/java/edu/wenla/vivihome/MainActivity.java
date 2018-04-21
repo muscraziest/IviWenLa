@@ -139,6 +139,13 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 mensaje.setVisibility(View.VISIBLE);
                 mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n" + msg_puerta);
 
+                try{
+                    speak(msg_techo + ". " + msg_lectura + ". " + msg_regulable + ". " + msg_puerta, "ES", ID_PROMPT_INFO);
+
+                }
+                catch (Exception e) {
+                    Log.e(LOGTAG, "TTS not accessible");
+                }
             }
         });
     }
@@ -308,7 +315,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
 
 
-            else if(nBestList.get(0) == "Enciende la luz del techo") {
+            else if(nBestList.get(0) == "Enciende la luz del techo" || nBestList.get(0) == "Enciende las luces del techo") {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
@@ -333,7 +340,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0) == "Apaga la luz del techo") {
+            else if(nBestList.get(0) == "Apaga la luz del techo" || nBestList.get(0) == "Apaga las luces del techo") {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
