@@ -27,6 +27,13 @@
     <string name="puerta">Abrir puerta</string>
     <string name="volver">Volver</string>
 
+    <!-- Strings related to HTTP request -->
+    <string name="http_techo_2">http://belisama.ii.uam.es:8080/bbhttp/set/Light:lamp2@amilab!isSwitchable/status.binaryValue=</string>
+    <string name="http_techo_1">http://belisama.ii.uam.es:8080/bbhttp/get/Light:lamp1@amilab!isSwitchable/status.binaryValue=</string>
+    <string name="http_letura">http://belisama.ii.uam.es:8080/bbhttp/set/DimmableLight:dimlamp1@amilab!isSwitchable/status.binaryValue=</string>
+    <string name="http_regulable">http://belisama.ii.uam.es:8080/bbhttp/set/DimmableLight:dimlamp1@amilab!isDimmable/level.numericValue=</string>
+    <string name="http_puerta">http://belisama.ii.uam.es:8080/bbhttp/set/Lock:door@amilab!canOpen/status.binaryValue=</string>
+
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 

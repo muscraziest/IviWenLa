@@ -23,8 +23,26 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -109,26 +127,44 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     String msg_regulable;
                     String msg_puerta;
 
-                    if (techo.isChecked())
+                    if (techo.isChecked()) {
                         msg_techo = getResources().getString(R.string.mensaje_techo) + " encendidas.";
-                    else
+                        getUrl(0,1);
+                        getUrl(1,1);
+                    }
+
+                    else {
                         msg_techo = getResources().getString(R.string.mensaje_techo) + " apagadas.";
+                        getUrl(0,0);
+                        getUrl(1,0);
+                    }
 
-                    if (lectura.isChecked())
+                    if (lectura.isChecked()){
                         msg_lectura = getResources().getString(R.string.mensaje_lectura) + " encendida.";
-                    else
+                        getUrl(2,1);
+                    }
+                    else{
                         msg_lectura = getResources().getString(R.string.mensaje_lectura) + " apagada.";
+                        getUrl(2,0);
+                    }
 
-                    if (regulable.isChecked())
+                    if (regulable.isChecked()){
                         msg_regulable = getResources().getString(R.string.mensaje_regulable) + " encendida.";
-                    else
+                        getUrl(3,1);
+                    }
+                    else {
                         msg_regulable = getResources().getString(R.string.mensaje_regulable) + " apagada.";
+                        getUrl(3,0);
+                    }
 
-                    if (puerta.isChecked())
+                    if (puerta.isChecked()){
                         msg_puerta = getResources().getString(R.string.mensaje_puerta) + " abierta.";
-                    else
+                        getUrl(4,1);
+                    }
+                    else {
                         msg_puerta = getResources().getString(R.string.mensaje_puerta) + " cerrada.";
-
+                        getUrl(4, 0);
+                    }
 
                     if (techo.isShown()) {
                         techo.setVisibility(View.INVISIBLE);
@@ -257,9 +293,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
         if(nBestList != null){
 
-            Log.d("ASR","------------------\nLISTA: " + nBestList.get(0) + "------------------\n");
-
-
             if(nBestList.get(0).equals("modificar estado") || nBestList.get(0).equals("modificar")){
 
                 try {
@@ -334,6 +367,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     if (!techo.isChecked()) {
 
                         techo.setChecked(true);
+                        getUrl(0,1);
+                        getUrl(1,1);
                         speak(getResources().getString(R.string.mensaje_encender_techo), "ES", ID_PROMPT_INFO);
                     }
 
@@ -358,7 +393,9 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
                     if (techo.isChecked()) {
 
-                        techo.setChecked(true);
+                        techo.setChecked(false);
+                        getUrl(0,0);
+                        getUrl(1,0);
                         speak(getResources().getString(R.string.mensaje_apagar_techo), "ES", ID_PROMPT_INFO);
                     }
 
@@ -384,6 +421,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     if (!lectura.isChecked()) {
 
                         lectura.setChecked(true);
+                        getUrl(2,1);
                         speak(getResources().getString(R.string.mensaje_encender_lectura), "ES", ID_PROMPT_INFO);
                     }
 
@@ -408,7 +446,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
                     if (lectura.isChecked()) {
 
-                        lectura.setChecked(true);
+                        lectura.setChecked(false);
+                        getUrl(2,0);
                         speak(getResources().getString(R.string.mensaje_apagar_lectura), "ES", ID_PROMPT_INFO);
                     }
 
@@ -434,6 +473,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     if (!regulable.isChecked()) {
 
                         regulable.setChecked(true);
+                        getUrl(3,1);
                         speak(getResources().getString(R.string.mensaje_encender_regulable), "ES", ID_PROMPT_INFO);
                     }
 
@@ -458,7 +498,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
                     if (regulable.isChecked()) {
 
-                        regulable.setChecked(true);
+                        regulable.setChecked(false);
+                        getUrl(3,0);
                         speak(getResources().getString(R.string.mensaje_apagar_regulable), "ES", ID_PROMPT_INFO);
                     }
 
@@ -484,6 +525,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     if (!puerta.isChecked()) {
 
                         puerta.setChecked(true);
+                        getUrl(4,1);
                         speak(getResources().getString(R.string.mensaje_abrir_puerta), "ES", ID_PROMPT_INFO);
                     }
 
@@ -508,7 +550,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
                     if (puerta.isChecked()) {
 
-                        puerta.setChecked(true);
+                        puerta.setChecked(false);
+                        getUrl(4,0);
                         speak(getResources().getString(R.string.mensaje_cerrar_puerta), "ES", ID_PROMPT_INFO);
                     }
 
@@ -620,6 +663,71 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    ///                                  HTTP                                         ///
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    public void getUrl(int cod, int value) {
+
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        String url="";
+
+        switch (cod){
+
+            //Luces techo 1
+            case 0:
+                url = getResources().getString(R.string.http_techo_1);
+                break;
+
+            //Luces techo 2
+            case 1:
+                url = getResources().getString(R.string.http_techo_2);
+                break;
+
+            //Luz lectura
+            case 2:
+                url = getResources().getString(R.string.http_letura);
+                break;
+
+            //Luz regulable
+            case 3:
+                url = getResources().getString(R.string.http_regulable);
+                break;
+
+            //Puerta
+            case 4:
+                url = getResources().getString(R.string.http_puerta);
+
+            default:
+                break;
+        }
+
+        url+= Integer.toString(value);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                // Display the first 500 characters of the response string.
+                //mensaje.setText("Response is: " + response.substring(0, 500));
+                //System.out.println("ësto funciona");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //mensaje.setText("That didn't work!");
+                //System.out.println("älgo mas");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
 
     }
 }
