@@ -182,7 +182,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         primera_vez = false;
                     }
                     else
-                        speak("¿Quieres consultar o modificar tus dispositivos?", "ES", ID_PROMPT_QUERY);
+                        speak("Dime", "ES", ID_PROMPT_QUERY);
                 } catch (Exception e) {
                     Log.e(LOGTAG, "TTS not accessible");
                 }
@@ -257,7 +257,10 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
         if(nBestList != null){
 
-            if(nBestList.get(0) == "Modificar estado"){
+            Log.d("ASR","------------------\nLISTA: " + nBestList.get(0) + "------------------\n");
+
+
+            if(nBestList.get(0).equals("modificar estado") || nBestList.get(0).equals("modificar")){
 
                 try {
                     speak("Esta es la pantalla de control de tus dispositivos. ¿Qué quieres hacer?", "ES", ID_PROMPT_INFO);
@@ -270,7 +273,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            if(nBestList.get(0) == "Consultar estado"){
+            if(nBestList.get(0).equals("consultar estado") || nBestList.get(0).equals("consultar")){
 
                 try {
                     String msg_techo;
@@ -319,7 +322,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
 
 
-            else if(nBestList.get(0) == "Enciende la luz del techo" || nBestList.get(0) == "Enciende las luces del techo") {
+            else if(nBestList.get(0).equals("enciende la luz del techo") || nBestList.get(0).equals("enciende las luces del techo")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
@@ -344,7 +347,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0) == "Apaga la luz del techo" || nBestList.get(0) == "Apaga las luces del techo") {
+            else if(nBestList.get(0).equals("apaga la luz del techo") || nBestList.get(0).equals("apaga las luces del techo")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
@@ -369,7 +372,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0) == "Enciende la luz de lectura") {
+            else if(nBestList.get(0).equals("enciende la luz de lectura")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
@@ -394,7 +397,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0) == "Apaga la luz de lectura") {
+            else if(nBestList.get(0).equals("apaga la luz de lectura")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
@@ -419,7 +422,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0) == "Enciende la luz regulable") {
+            else if(nBestList.get(0).equals("enciende la luz regulable")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
@@ -444,7 +447,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0) == "Apaga la luz regulable") {
+            else if(nBestList.get(0).equals("apaga la luz regulable")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
@@ -469,7 +472,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0) == "Abre la puerta") {
+            else if(nBestList.get(0).equals("abre la puerta")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
@@ -494,7 +497,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0) == "Cierra la puerta") {
+            else if(nBestList.get(0).equals("cierra la puerta")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
@@ -519,7 +522,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0) == "Gracias") {
+            else if(nBestList.get(0).equals("gracias")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
