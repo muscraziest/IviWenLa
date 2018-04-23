@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,7 +11,14 @@
         android:id="@+id/vivi_message"
         android:layout_width="match_parent"
         android:layout_height="190dp"
-        android:text="Bienvenido!" />
+        android:lineSpacingExtra="8sp"
+        android:text="@string/mensaje_inicial"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="24sp"
+        android:typeface="normal"
+        android:visibility="visible"
+        app:fontFamily="sans-serif-condensed" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,9 +35,11 @@
             android:layout_marginTop="51dp"
             android:checked="false"
             android:text="@string/luces_techo"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textOff="Apagadas"
             android:textOn="Encendidas"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            tools:checked="false" />
 
 
         <Switch
@@ -40,6 +50,7 @@
             android:layout_marginTop="20dp"
             android:checked="false"
             android:text="@string/luz_lectura"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textOff="Apagada"
             android:textOn="Encendida"
             android:visibility="invisible" />
@@ -53,6 +64,7 @@
             android:layout_marginTop="20dp"
             android:checked="false"
             android:text="@string/luz_regulable"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textOff="Apagada"
             android:textOn="Encendida"
             android:visibility="invisible" />
@@ -65,6 +77,7 @@
             android:layout_marginTop="20dp"
             android:checked="false"
             android:text="@string/puerta"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textOff="Cerrada"
             android:textOn="Abierta"
             android:visibility="invisible" />
@@ -73,13 +86,19 @@
             android:id="@+id/state_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Consultar estado" />
+            android:layout_gravity="center"
+            android:background="#ab3f51b5"
+            android:text="Consultar estado"
+            android:textColor="?attr/colorBackgroundFloating" />
 
         <Button
             android:id="@+id/settings_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Modificar estado" />
+            android:layout_gravity="center"
+            android:background="#ab3f51b5"
+            android:text="Modificar estado"
+            android:textColor="?attr/colorBackgroundFloating" />
 
     </LinearLayout>
 
@@ -90,6 +109,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="59dp"
+        android:background="?attr/colorAccent"
+        android:tint="?android:attr/colorForeground"
         app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
     <TextView
@@ -98,6 +119,9 @@
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Pulsa para hablar" />
+        android:text="Pulsa para hablar"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="?attr/actionMenuTextColor"
+        android:textSize="18sp" />
 
 </RelativeLayout>

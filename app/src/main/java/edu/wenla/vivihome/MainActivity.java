@@ -296,7 +296,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
             if(nBestList.get(0).equals("modificar estado") || nBestList.get(0).equals("modificar")){
 
                 try {
-                    speak("Esta es la pantalla de control de tus dispositivos. ¿Qué quieres hacer?", "ES", ID_PROMPT_INFO);
+                    speak("¿Qué quieres hacer?", "ES", ID_PROMPT_INFO);
                     techo.setVisibility(View.VISIBLE);
                     lectura.setVisibility(View.VISIBLE);
                     regulable.setVisibility(View.VISIBLE);
@@ -345,7 +345,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     mensaje.setVisibility(View.VISIBLE);
                     mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n" + msg_puerta);
 
-
                     speak(msg_techo + ". " + msg_lectura + ". " + msg_regulable + ". " + msg_puerta, "ES", ID_PROMPT_INFO);
 
                 } catch (Exception e) {
@@ -370,6 +369,9 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         getUrl(0,1);
                         getUrl(1,1);
                         speak(getResources().getString(R.string.mensaje_encender_techo), "ES", ID_PROMPT_INFO);
+
+                        mensaje.setVisibility(View.VISIBLE);
+                        mensaje.setText(getResources().getString(R.string.mensaje_encender_techo));
                     }
 
                     else
@@ -397,6 +399,9 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         getUrl(0,0);
                         getUrl(1,0);
                         speak(getResources().getString(R.string.mensaje_apagar_techo), "ES", ID_PROMPT_INFO);
+
+                        mensaje.setVisibility(View.VISIBLE);
+                        mensaje.setText(getResources().getString(R.string.mensaje_apagar_techo));
                     }
 
                     else
@@ -423,6 +428,9 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         lectura.setChecked(true);
                         getUrl(2,1);
                         speak(getResources().getString(R.string.mensaje_encender_lectura), "ES", ID_PROMPT_INFO);
+
+                        mensaje.setVisibility(View.VISIBLE);
+                        mensaje.setText(getResources().getString(R.string.mensaje_encender_lectura));
                     }
 
                     else
@@ -449,6 +457,9 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         lectura.setChecked(false);
                         getUrl(2,0);
                         speak(getResources().getString(R.string.mensaje_apagar_lectura), "ES", ID_PROMPT_INFO);
+
+                        mensaje.setVisibility(View.VISIBLE);
+                        mensaje.setText(getResources().getString(R.string.mensaje_apagar_lectura));
                     }
 
                     else
@@ -475,6 +486,9 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         regulable.setChecked(true);
                         getUrl(3,1);
                         speak(getResources().getString(R.string.mensaje_encender_regulable), "ES", ID_PROMPT_INFO);
+
+                        mensaje.setVisibility(View.VISIBLE);
+                        mensaje.setText(getResources().getString(R.string.mensaje_encender_regulable));
                     }
 
                     else
@@ -501,6 +515,9 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         regulable.setChecked(false);
                         getUrl(3,0);
                         speak(getResources().getString(R.string.mensaje_apagar_regulable), "ES", ID_PROMPT_INFO);
+
+                        mensaje.setVisibility(View.VISIBLE);
+                        mensaje.setText(getResources().getString(R.string.mensaje_apagar_regulable));
                     }
 
                     else
@@ -527,6 +544,9 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         puerta.setChecked(true);
                         getUrl(4,1);
                         speak(getResources().getString(R.string.mensaje_abrir_puerta), "ES", ID_PROMPT_INFO);
+
+                        mensaje.setVisibility(View.VISIBLE);
+                        mensaje.setText(getResources().getString(R.string.mensaje_abrir_puerta));
                     }
 
                     else
@@ -553,6 +573,9 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         puerta.setChecked(false);
                         getUrl(4,0);
                         speak(getResources().getString(R.string.mensaje_cerrar_puerta), "ES", ID_PROMPT_INFO);
+
+                        mensaje.setVisibility(View.VISIBLE);
+                        mensaje.setText(getResources().getString(R.string.mensaje_cerrar_puerta));
                     }
 
                     else
