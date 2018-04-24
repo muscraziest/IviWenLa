@@ -1,24 +1,16 @@
 package edu.wenla.vivihome;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,19 +22,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -60,7 +39,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
     //Variables para los ajustes
     private static final int RESULT_SETTINGS = 1;
     private Button opciones, consultar;
-    private Switch techo, lectura, regulable, puerta;
+    private Switch techo, lectura, regulable;
     private TextView mensaje;
 
 
@@ -77,8 +56,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
         techo = (Switch)findViewById(R.id.switch_techo);
         lectura = (Switch)findViewById(R.id.switch_lectura);
         regulable = (Switch)findViewById(R.id.switch_regulable);
-        puerta = (Switch)findViewById(R.id.switch_puerta);
 
+        setSettings();
         openSettings();
         checkState();
     }
@@ -87,6 +66,63 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
     /////////////////////////////////////////////////////////////////////////////////////
     ///                                  TÁCTIL                                       ///
     /////////////////////////////////////////////////////////////////////////////////////
+    public void setSettings(){
+
+        String state = "";
+
+        for (int i=0; i < 3; ++i){
+
+            state = getUrl(i);
+
+            Log.d("E","i: " + Integer.toString(i) + "\tstate: " + state);
+
+            if(state.equals("0")){
+
+                switch (i){
+
+                    case 0:
+                        techo.setChecked(false);
+                        break;
+                    case 1:
+                        //techo.setChecked(false);
+                        break;
+                    case 2:
+                        lectura.setChecked(false);
+                        break;
+                    case 3:
+                        regulable.setChecked(false);
+                        break;
+                }
+            }
+
+            else{
+
+                switch (i){
+
+                    case 0:
+                        techo.setChecked(true);
+                        break;
+                    case 1:
+                        //techo.setChecked(true);
+                        break;
+                    case 2:
+                        lectura.setChecked(true);
+                        break;
+                    case 3:
+                        regulable.setChecked(true);
+                        break;
+                }
+
+            }
+
+
+        }
+
+
+
+    }
+
+
     @TargetApi(VERSION_CODES.M)
     public void openSettings(){
 
@@ -101,13 +137,12 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     techo.setVisibility(View.VISIBLE);
                     lectura.setVisibility(View.VISIBLE);
                     regulable.setVisibility(View.VISIBLE);
-                    puerta.setVisibility(View.VISIBLE);
                 }
                 else {
+                    mensaje.setVisibility(View.VISIBLE);
                     techo.setVisibility(View.INVISIBLE);
                     lectura.setVisibility(View.INVISIBLE);
                     regulable.setVisibility(View.INVISIBLE);
-                    puerta.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -125,59 +160,37 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     String msg_techo;
                     String msg_lectura;
                     String msg_regulable;
-                    String msg_puerta;
 
-                    if (techo.isChecked()) {
+                    if (techo.isChecked())
                         msg_techo = getResources().getString(R.string.mensaje_techo) + " encendidas.";
-                        getUrl(0,1);
-                        getUrl(1,1);
-                    }
 
-                    else {
+                    else
                         msg_techo = getResources().getString(R.string.mensaje_techo) + " apagadas.";
-                        getUrl(0,0);
-                        getUrl(1,0);
-                    }
 
-                    if (lectura.isChecked()){
+                    if (lectura.isChecked())
                         msg_lectura = getResources().getString(R.string.mensaje_lectura) + " encendida.";
-                        getUrl(2,1);
-                    }
-                    else{
+
+                    else
                         msg_lectura = getResources().getString(R.string.mensaje_lectura) + " apagada.";
-                        getUrl(2,0);
-                    }
 
-                    if (regulable.isChecked()){
+                    if (regulable.isChecked())
                         msg_regulable = getResources().getString(R.string.mensaje_regulable) + " encendida.";
-                        getUrl(3,1);
-                    }
-                    else {
-                        msg_regulable = getResources().getString(R.string.mensaje_regulable) + " apagada.";
-                        getUrl(3,0);
-                    }
 
-                    if (puerta.isChecked()){
-                        msg_puerta = getResources().getString(R.string.mensaje_puerta) + " abierta.";
-                        getUrl(4,1);
-                    }
-                    else {
-                        msg_puerta = getResources().getString(R.string.mensaje_puerta) + " cerrada.";
-                        getUrl(4, 0);
-                    }
+                    else
+                        msg_regulable = getResources().getString(R.string.mensaje_regulable) + " apagada.";
+
 
                     if (techo.isShown()) {
                         techo.setVisibility(View.INVISIBLE);
                         lectura.setVisibility(View.INVISIBLE);
                         regulable.setVisibility(View.INVISIBLE);
-                        puerta.setVisibility(View.INVISIBLE);
                     }
 
                     mensaje.setVisibility(View.VISIBLE);
-                    mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n" + msg_puerta);
+                    mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n");
 
                     try {
-                        speak(msg_techo + ". " + msg_lectura + ". " + msg_regulable + ". " + msg_puerta, "ES", ID_PROMPT_INFO);
+                        speak(msg_techo + ". " + msg_lectura + ". " + msg_regulable + ". ", "ES", ID_PROMPT_INFO);
 
                     } catch (Exception e) {
                         Log.e(LOGTAG, "TTS not accessible");
@@ -300,19 +313,17 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     techo.setVisibility(View.VISIBLE);
                     lectura.setVisibility(View.VISIBLE);
                     regulable.setVisibility(View.VISIBLE);
-                    puerta.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
                     Log.e(LOGTAG, "TTS not accessible");
                 }
             }
 
-            if(nBestList.get(0).equals("consultar estado") || nBestList.get(0).equals("consultar")){
+            else if(nBestList.get(0).equals("consultar estado") || nBestList.get(0).equals("consultar")){
 
                 try {
                     String msg_techo;
                     String msg_lectura;
                     String msg_regulable;
-                    String msg_puerta;
 
                     if (techo.isChecked())
                         msg_techo = getResources().getString(R.string.mensaje_techo) + " encendidas.";
@@ -329,49 +340,38 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                     else
                         msg_regulable = getResources().getString(R.string.mensaje_regulable) + " apagada.";
 
-                    if (puerta.isChecked())
-                        msg_puerta = getResources().getString(R.string.mensaje_puerta) + " abierta.";
-                    else
-                        msg_puerta = getResources().getString(R.string.mensaje_puerta) + " cerrada.";
-
 
                     if(techo.isShown()){
                         techo.setVisibility(View.INVISIBLE);
                         lectura.setVisibility(View.INVISIBLE);
                         regulable.setVisibility(View.INVISIBLE);
-                        puerta.setVisibility(View.INVISIBLE);
                     }
 
                     mensaje.setVisibility(View.VISIBLE);
-                    mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n" + msg_puerta);
+                    mensaje.setText(msg_techo + "\n" + msg_lectura + "\n" + msg_regulable + "\n");
 
-                    speak(msg_techo + ". " + msg_lectura + ". " + msg_regulable + ". " + msg_puerta, "ES", ID_PROMPT_INFO);
+                    speak(msg_techo + ". " + msg_lectura + ". " + msg_regulable + ". ", "ES", ID_PROMPT_INFO);
 
                 } catch (Exception e) {
                     Log.e(LOGTAG, "TTS not accessible");
                 }
             }
 
-
-
             else if(nBestList.get(0).equals("enciende la luz del techo") || nBestList.get(0).equals("enciende las luces del techo")) {
 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
                 regulable.setVisibility(View.VISIBLE);
-                puerta.setVisibility(View.VISIBLE);
+                mensaje.setVisibility(View.INVISIBLE);
 
                 try {
 
                     if (!techo.isChecked()) {
 
                         techo.setChecked(true);
-                        getUrl(0,1);
-                        getUrl(1,1);
+                        setUrl(0,1);
+                        //setUrl(1,1);
                         speak(getResources().getString(R.string.mensaje_encender_techo), "ES", ID_PROMPT_INFO);
-
-                        mensaje.setVisibility(View.VISIBLE);
-                        mensaje.setText(getResources().getString(R.string.mensaje_encender_techo));
                     }
 
                     else
@@ -389,19 +389,16 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
                 regulable.setVisibility(View.VISIBLE);
-                puerta.setVisibility(View.VISIBLE);
+                mensaje.setVisibility(View.INVISIBLE);
 
                 try {
 
                     if (techo.isChecked()) {
 
                         techo.setChecked(false);
-                        getUrl(0,0);
-                        getUrl(1,0);
+                        setUrl(0,0);
+                        //setUrl(1,0);
                         speak(getResources().getString(R.string.mensaje_apagar_techo), "ES", ID_PROMPT_INFO);
-
-                        mensaje.setVisibility(View.VISIBLE);
-                        mensaje.setText(getResources().getString(R.string.mensaje_apagar_techo));
                     }
 
                     else
@@ -419,18 +416,15 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
                 regulable.setVisibility(View.VISIBLE);
-                puerta.setVisibility(View.VISIBLE);
+                mensaje.setVisibility(View.INVISIBLE);
 
                 try {
 
                     if (!lectura.isChecked()) {
 
                         lectura.setChecked(true);
-                        getUrl(2,1);
+                        setUrl(2,1);
                         speak(getResources().getString(R.string.mensaje_encender_lectura), "ES", ID_PROMPT_INFO);
-
-                        mensaje.setVisibility(View.VISIBLE);
-                        mensaje.setText(getResources().getString(R.string.mensaje_encender_lectura));
                     }
 
                     else
@@ -448,18 +442,15 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
                 regulable.setVisibility(View.VISIBLE);
-                puerta.setVisibility(View.VISIBLE);
+                mensaje.setVisibility(View.INVISIBLE);
 
                 try {
 
                     if (lectura.isChecked()) {
 
                         lectura.setChecked(false);
-                        getUrl(2,0);
+                        setUrl(2,0);
                         speak(getResources().getString(R.string.mensaje_apagar_lectura), "ES", ID_PROMPT_INFO);
-
-                        mensaje.setVisibility(View.VISIBLE);
-                        mensaje.setText(getResources().getString(R.string.mensaje_apagar_lectura));
                     }
 
                     else
@@ -477,18 +468,15 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
                 regulable.setVisibility(View.VISIBLE);
-                puerta.setVisibility(View.VISIBLE);
+                mensaje.setVisibility(View.INVISIBLE);
 
                 try {
 
                     if (!regulable.isChecked()) {
 
                         regulable.setChecked(true);
-                        getUrl(3,1);
+                        setUrl(3,60);
                         speak(getResources().getString(R.string.mensaje_encender_regulable), "ES", ID_PROMPT_INFO);
-
-                        mensaje.setVisibility(View.VISIBLE);
-                        mensaje.setText(getResources().getString(R.string.mensaje_encender_regulable));
                     }
 
                     else
@@ -506,18 +494,15 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
                 regulable.setVisibility(View.VISIBLE);
-                puerta.setVisibility(View.VISIBLE);
+                mensaje.setVisibility(View.INVISIBLE);
 
                 try {
 
                     if (regulable.isChecked()) {
 
                         regulable.setChecked(false);
-                        getUrl(3,0);
+                        setUrl(3,0);
                         speak(getResources().getString(R.string.mensaje_apagar_regulable), "ES", ID_PROMPT_INFO);
-
-                        mensaje.setVisibility(View.VISIBLE);
-                        mensaje.setText(getResources().getString(R.string.mensaje_apagar_regulable));
                     }
 
                     else
@@ -535,23 +520,12 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 techo.setVisibility(View.VISIBLE);
                 lectura.setVisibility(View.VISIBLE);
                 regulable.setVisibility(View.VISIBLE);
-                puerta.setVisibility(View.VISIBLE);
+                mensaje.setVisibility(View.INVISIBLE);
 
                 try {
 
-                    if (!puerta.isChecked()) {
-
-                        puerta.setChecked(true);
-                        getUrl(4,1);
-                        speak(getResources().getString(R.string.mensaje_abrir_puerta), "ES", ID_PROMPT_INFO);
-
-                        mensaje.setVisibility(View.VISIBLE);
-                        mensaje.setText(getResources().getString(R.string.mensaje_abrir_puerta));
-                    }
-
-                    else
-                        speak("Las luces del techo ya están encendidas", "ES", ID_PROMPT_INFO);
-
+                    setUrl(4,1);
+                    speak(getResources().getString(R.string.mensaje_abrir_puerta), "ES", ID_PROMPT_INFO);
                 }
                 catch(Exception e){
                     Log.e(LOGTAG, "TTS not accessible");
@@ -559,41 +533,12 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                 }
             }
 
-            else if(nBestList.get(0).equals("cierra la puerta")) {
-
-                techo.setVisibility(View.VISIBLE);
-                lectura.setVisibility(View.VISIBLE);
-                regulable.setVisibility(View.VISIBLE);
-                puerta.setVisibility(View.VISIBLE);
-
-                try {
-
-                    if (puerta.isChecked()) {
-
-                        puerta.setChecked(false);
-                        getUrl(4,0);
-                        speak(getResources().getString(R.string.mensaje_cerrar_puerta), "ES", ID_PROMPT_INFO);
-
-                        mensaje.setVisibility(View.VISIBLE);
-                        mensaje.setText(getResources().getString(R.string.mensaje_cerrar_puerta));
-                    }
-
-                    else
-                        speak("La puerta ya está cerrada", "ES", ID_PROMPT_INFO);
-
-                }
-                catch(Exception e){
-                    Log.e(LOGTAG, "TTS not accessible");
-
-                }
-            }
 
             else if(nBestList.get(0).equals("gracias")) {
 
-                techo.setVisibility(View.VISIBLE);
-                lectura.setVisibility(View.VISIBLE);
-                regulable.setVisibility(View.VISIBLE);
-                puerta.setVisibility(View.VISIBLE);
+                techo.setVisibility(View.INVISIBLE);
+                lectura.setVisibility(View.INVISIBLE);
+                regulable.setVisibility(View.INVISIBLE);
 
                 try {
                     speak("No hay de que.", "ES", ID_PROMPT_INFO);
@@ -693,39 +638,39 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
     ///                                  HTTP                                         ///
     /////////////////////////////////////////////////////////////////////////////////////
 
-    public void getUrl(int cod, int value) {
+    public void setUrl(int cod, int value) {
 
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url="";
+        String url = "";
 
         switch (cod){
 
             //Luces techo 1
             case 0:
-                url = getResources().getString(R.string.http_techo_1);
+                url = getResources().getString(R.string.set_techo_1);
                 break;
 
             //Luces techo 2
             case 1:
-                url = getResources().getString(R.string.http_techo_2);
+                url = getResources().getString(R.string.set_techo_2);
                 break;
 
             //Luz lectura
             case 2:
-                url = getResources().getString(R.string.http_letura);
+                url = getResources().getString(R.string.set_letura);
                 break;
 
             //Luz regulable
             case 3:
-                url = getResources().getString(R.string.http_regulable);
+                url = getResources().getString(R.string.set_regulable);
                 break;
 
             //Puerta
             case 4:
-                url = getResources().getString(R.string.http_puerta);
+                url = getResources().getString(R.string.set_puerta);
 
             default:
                 break;
@@ -751,6 +696,67 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
 
+    public String getUrl(int code) {
+
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        String url = "";
+        final String[] salida = {""};
+
+        switch (code){
+
+            //Luces techo 1
+            case 0:
+                url = getResources().getString(R.string.get_techo_1);
+                break;
+
+            //Luces techo 2
+            case 1:
+                url = getResources().getString(R.string.get_techo_2);
+                break;
+
+            //Luz lectura
+            case 2:
+                url = getResources().getString(R.string.get_lectura);
+                break;
+
+            //Luz regulable
+            case 3:
+                url = getResources().getString(R.string.get_regulable);
+                break;
+
+            default:
+                break;
+        }
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                // Display the first 500 characters of the response string.
+                //mensaje.setText("Response is: " + response.substring(0, 500));
+                Log.d("response",response);
+                Log.d("substring",response.substring(response.indexOf("=")+1,response.length()-2));
+                salida[0] = response.substring(response.indexOf("=")+1,response.length()-2);
+                //System.out.println("ësto funciona");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //mensaje.setText("That didn't work!");
+                //System.out.println("älgo mas");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+        Log.d("asdsa","Salida: " + salida[0]);
+
+        return salida[0];
     }
 }

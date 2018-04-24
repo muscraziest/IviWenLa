@@ -13,7 +13,6 @@
     <string name="mensaje_encender_regulable">He encendido la luz regulable.</string>
     <string name="mensaje_apagar_regulable">He apagado la luz regulable.</string>
     <string name="mensaje_abrir_puerta">He abierto la puerta.</string>
-    <string name="mensaje_cerrar_puerta">He cerrado la puerta.</string>
 
     <!-- Strings related to main menu -->
     <string name="consulta_estado">Consultar el estado de la casa</string>
@@ -24,15 +23,19 @@
     <string name="luces_techo">Luces del techo</string>
     <string name="luz_lectura">Luz de lectura</string>
     <string name="luz_regulable">Luz regulable</string>
-    <string name="puerta">Abrir puerta</string>
     <string name="volver">Volver</string>
 
     <!-- Strings related to HTTP request -->
-    <string name="http_techo_2">http://belisama.ii.uam.es:8080/bbhttp/set/Light:lamp2@amilab!isSwitchable/status.binaryValue=</string>
-    <string name="http_techo_1">http://belisama.ii.uam.es:8080/bbhttp/get/Light:lamp1@amilab!isSwitchable/status.binaryValue=</string>
-    <string name="http_letura">http://belisama.ii.uam.es:8080/bbhttp/set/DimmableLight:dimlamp1@amilab!isSwitchable/status.binaryValue=</string>
-    <string name="http_regulable">http://belisama.ii.uam.es:8080/bbhttp/set/DimmableLight:dimlamp1@amilab!isDimmable/level.numericValue=</string>
-    <string name="http_puerta">http://belisama.ii.uam.es:8080/bbhttp/set/Lock:door@amilab!canOpen/status.binaryValue=</string>
+    <string name="set_techo_1">http://belisama.ii.uam.es:8080/bbhttp/set/Light:lamp1@amilab!isSwitchable/status.binaryValue=</string>
+    <string name="set_techo_2">http://belisama.ii.uam.es:8080/bbhttp/set/Light:lamp2@amilab!isSwitchable/status.binaryValue=</string>
+    <string name="set_letura">http://belisama.ii.uam.es:8080/bbhttp/set/DimmableLight:dimlamp1@amilab!isSwitchable/status.binaryValue=</string>
+    <string name="set_regulable">http://belisama.ii.uam.es:8080/bbhttp/set/DimmableLight:dimlamp1@amilab!isDimmable/level.numericValue=</string>
+    <string name="set_puerta">http://belisama.ii.uam.es:8080/bbhttp/set/Lock:door@amilab!canOpen/status.binaryValue=</string>
+
+    <string name="get_techo_1">http://belisama.ii.uam.es:8080/bbhttp/get/Light:lamp1@amilab!isSwitchable/status.binaryValue</string>
+    <string name="get_techo_2">http://belisama.ii.uam.es:8080/bbhttp/get/Light:lamp2@amilab!isSwitchable/status.binaryValue</string>
+    <string name="get_lectura">http://belisama.ii.uam.es:8080/bbhttp/get/DimmableLight:dimlamp1@amilab!isSwitchable/status.binaryValue</string>
+    <string name="get_regulable">http://belisama.ii.uam.es:8080/bbhttp/get/DimmableLight:dimlamp1@amilab!isDimmable/level.numericValue</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
