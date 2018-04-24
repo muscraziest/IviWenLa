@@ -58,7 +58,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
         lectura = (Switch)findViewById(R.id.switch_lectura);
         regulable = (Switch)findViewById(R.id.switch_regulable);
 
-        setSettings();
         openSettings();
         checkState();
     }
@@ -174,6 +173,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
     }
 
     public void checkState(){
+
+        setSettings();
 
         consultar = findViewById(R.id.state_btn);
 
