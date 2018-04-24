@@ -33,11 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/wenla/vivihome/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="179" column="65" lean-forward="true" selection-start-line="179" selection-start-column="65" selection-end-line="179" selection-end-column="65" />
+            <state relative-caret-position="370">
+              <caret line="781" column="0" lean-forward="true" selection-start-line="781" selection-start-column="0" selection-end-line="781" selection-end-column="0" />
               <folding>
                 <element signature="e#3711#5426#0" expanded="true" />
                 <element signature="e#3853#4327#0" expanded="true" />
@@ -47,6 +47,7 @@
                 <element signature="e#4775#5111#0" expanded="true" />
                 <element signature="e#5110#5111#0" expanded="true" />
                 <element signature="e#5425#5426#0" expanded="true" />
+                <element signature="e#5555#7462#0" expanded="true" />
                 <element signature="e#5889#5937#0" expanded="true" />
                 <element signature="e#6018#6066#0" expanded="true" />
                 <element signature="e#6167#6217#0" expanded="true" />
@@ -104,12 +105,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VoiceActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="VoiceActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/wenla/vivihome/VoiceActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="33" column="22" lean-forward="false" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-              <folding />
+            <state relative-caret-position="388">
+              <caret line="511" column="5" lean-forward="true" selection-start-line="511" selection-start-column="5" selection-end-line="511" selection-end-column="5" />
+              <folding>
+                <element signature="e#7439#7440#0" expanded="true" />
+                <element signature="e#7476#7477#0" expanded="true" />
+                <element signature="e#17088#17089#0" expanded="true" />
+                <element signature="e#17142#17143#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2196,6 +2202,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/main_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/wenla/vivihome/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/wenla/vivihome/VoiceActivity.java" />
       </list>
     </option>
   </component>
@@ -2238,55 +2245,6 @@
             <path>
               <item name="IviWenLa" type="b2602c69:ProjectViewProjectNode" />
               <item name="IviWenLa" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="IviWenLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IviWenLa" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="IviWenLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IviWenLa" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="libs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="IviWenLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IviWenLa" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="IviWenLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IviWenLa" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="IviWenLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IviWenLa" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="IviWenLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IviWenLa" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="vivihome" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="IviWenLa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IviWenLa" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -2523,6 +2481,7 @@
             <element signature="e#4775#5111#0" expanded="true" />
             <element signature="e#5110#5111#0" expanded="true" />
             <element signature="e#5425#5426#0" expanded="true" />
+            <element signature="e#5555#7462#0" expanded="true" />
             <element signature="e#5889#5937#0" expanded="true" />
             <element signature="e#6018#6066#0" expanded="true" />
             <element signature="e#6167#6217#0" expanded="true" />
@@ -2583,7 +2542,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="33" column="22" lean-forward="false" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="e#7439#7440#0" expanded="true" />
+            <element signature="e#7476#7477#0" expanded="true" />
+            <element signature="e#17088#17089#0" expanded="true" />
+            <element signature="e#17142#17143#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2635,6 +2599,7 @@
             <element signature="e#4775#5111#0" expanded="true" />
             <element signature="e#5110#5111#0" expanded="true" />
             <element signature="e#5425#5426#0" expanded="true" />
+            <element signature="e#5555#7462#0" expanded="true" />
             <element signature="e#5889#5937#0" expanded="true" />
             <element signature="e#6018#6066#0" expanded="true" />
             <element signature="e#6167#6217#0" expanded="true" />
@@ -2695,7 +2660,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="33" column="22" lean-forward="false" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="e#7439#7440#0" expanded="true" />
+            <element signature="e#7476#7477#0" expanded="true" />
+            <element signature="e#17088#17089#0" expanded="true" />
+            <element signature="e#17142#17143#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2747,6 +2717,7 @@
             <element signature="e#4775#5111#0" expanded="true" />
             <element signature="e#5110#5111#0" expanded="true" />
             <element signature="e#5425#5426#0" expanded="true" />
+            <element signature="e#5555#7462#0" expanded="true" />
             <element signature="e#5889#5937#0" expanded="true" />
             <element signature="e#6018#6066#0" expanded="true" />
             <element signature="e#6167#6217#0" expanded="true" />
@@ -2851,6 +2822,7 @@
             <element signature="e#4775#5111#0" expanded="true" />
             <element signature="e#5110#5111#0" expanded="true" />
             <element signature="e#5425#5426#0" expanded="true" />
+            <element signature="e#5555#7462#0" expanded="true" />
             <element signature="e#5889#5937#0" expanded="true" />
             <element signature="e#6018#6066#0" expanded="true" />
             <element signature="e#6167#6217#0" expanded="true" />
@@ -2959,14 +2931,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/wenla/vivihome/VoiceActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="33" column="22" lean-forward="false" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -2988,8 +2952,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/wenla/vivihome/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="179" column="65" lean-forward="true" selection-start-line="179" selection-start-column="65" selection-end-line="179" selection-end-column="65" />
+        <state relative-caret-position="370">
+          <caret line="781" column="0" lean-forward="true" selection-start-line="781" selection-start-column="0" selection-end-line="781" selection-end-column="0" />
           <folding>
             <element signature="e#3711#5426#0" expanded="true" />
             <element signature="e#3853#4327#0" expanded="true" />
@@ -2999,6 +2963,7 @@
             <element signature="e#4775#5111#0" expanded="true" />
             <element signature="e#5110#5111#0" expanded="true" />
             <element signature="e#5425#5426#0" expanded="true" />
+            <element signature="e#5555#7462#0" expanded="true" />
             <element signature="e#5889#5937#0" expanded="true" />
             <element signature="e#6018#6066#0" expanded="true" />
             <element signature="e#6167#6217#0" expanded="true" />
@@ -3051,6 +3016,19 @@
             <element signature="e#26729#26730#0" expanded="true" />
             <element signature="e#26732#26975#0" expanded="true" />
             <element signature="e#26974#26975#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/wenla/vivihome/VoiceActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="511" column="5" lean-forward="true" selection-start-line="511" selection-start-column="5" selection-end-line="511" selection-end-column="5" />
+          <folding>
+            <element signature="e#7439#7440#0" expanded="true" />
+            <element signature="e#7476#7477#0" expanded="true" />
+            <element signature="e#17088#17089#0" expanded="true" />
+            <element signature="e#17142#17143#0" expanded="true" />
           </folding>
         </state>
       </provider>
