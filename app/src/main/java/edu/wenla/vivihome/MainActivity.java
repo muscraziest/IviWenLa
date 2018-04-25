@@ -10,6 +10,7 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -57,7 +58,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
         lectura = (Switch)findViewById(R.id.switch_lectura);
         regulable = (Switch)findViewById(R.id.switch_regulable);
 
-        setSettings();
         openSettings();
         checkState();
     }
@@ -112,14 +112,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
                         regulable.setChecked(true);
                         break;
                 }
-
             }
-
-
         }
-
-
-
     }
 
 
@@ -132,23 +126,55 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
             @Override
             public void onClick(View v){
 
+                techo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked) {
+                            setUrl(0, 1);
+                            setUrl(1, 1);
+                        }
+                        else {
+                            setUrl(0, 0);
+                            setUrl(1, 0);
+                        }
+                    }
+                });
+
+                lectura.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked)
+                            setUrl(2, 1);
+
+                        else
+                            setUrl(2, 0);
+
+                    }
+                });
+
+                regulable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked)
+                            setUrl(2, 1);
+
+                        else
+                            setUrl(2, 0);
+
+                    }
+                });
+
                 if(!techo.isShown()) {
                     mensaje.setVisibility(View.INVISIBLE);
                     techo.setVisibility(View.VISIBLE);
                     lectura.setVisibility(View.VISIBLE);
                     regulable.setVisibility(View.VISIBLE);
-                }
-                else {
-                    mensaje.setVisibility(View.VISIBLE);
-                    techo.setVisibility(View.INVISIBLE);
-                    lectura.setVisibility(View.INVISIBLE);
-                    regulable.setVisibility(View.INVISIBLE);
+
                 }
             }
         });
     }
 
     public void checkState(){
+
+        setSettings();
 
         consultar = findViewById(R.id.state_btn);
 
@@ -310,9 +336,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener 
 
                 try {
                     speak("¿Qué quieres hacer?", "ES", ID_PROMPT_INFO);
-                    techo.setVisibility(View.VISIBLE);
-                    lectura.setVisibility(View.VISIBLE);
-                    regulable.setVisibility(View.VISIBLE);
+                    openSettings();
                 } catch (Exception e) {
                     Log.e(LOGTAG, "TTS not accessible");
                 }

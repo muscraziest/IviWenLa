@@ -31,7 +31,7 @@ import java.util.Locale;
  */
 
 
-public abstract class VoiceActivity extends AppCompatActivity implements RecognitionListener, OnInitListener{
+public abstract class VoiceActivity extends AppCompatActivity implements RecognitionListener, OnInitListener {
 
     private final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 22;
     private SpeechRecognizer myASR;
@@ -51,9 +51,10 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
 
     /**
      * Creates the speech recognizer and text-to-speech synthesizer instances
-     * @see RecognitionListener.java
+     *
      * @param ctx context of the interaction
-     * */
+     * @see RecognitionListener.java
+     */
     public void initSpeechInputOutput(Activity ctx) {
 
         this.ctx = ctx;
@@ -67,8 +68,7 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
         if (intActivities.size() != 0 || "generic".equals(Build.BRAND.toLowerCase(Locale.US))) {
             myASR = SpeechRecognizer.createSpeechRecognizer(ctx);
             myASR.setRecognitionListener(this);
-        }
-        else
+        } else
             myASR = null;
     }
 
@@ -76,7 +76,7 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      * Checks whether the user has granted permission to the microphone. If the permission has not been provided,
      * it is requested. The result of the request (whether the user finally grants the permission or not)
      * is processed in the onRequestPermissionsResult method.
-     *
+     * <p>
      * This is necessary from Android 6 (API level 23), in which users grant permissions to apps
      * while the app is running. In previous versions, the permissions were granted when installing the app
      * See: http://developer.android.com/intl/es/training/permissions/requesting.html
@@ -100,10 +100,10 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      * abstract method "onRecordAudioPermissionDenied" method is invoked. Such method must be implemented
      * by the subclasses of VoiceActivity.
      * More info: http://developer.android.com/intl/es/training/permissions/requesting.html
-     * */
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if(requestCode == MY_PERMISSIONS_REQUEST_RECORD_AUDIO) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_RECORD_AUDIO) {
             // If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.i(LOGTAG, "Record audio permission granted");
@@ -128,17 +128,15 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
     /**
      * Starts speech recognition after checking the ASR parameters
      *
-     * @param language Language used for speech recognition (e.g. Locale.ENGLISH)
+     * @param language      Language used for speech recognition (e.g. Locale.ENGLISH)
      * @param languageModel Type of language model used (free form or web search)
-     * @param maxResults Maximum number of recognition results
-     * @exception An exception is raised if the language specified is not available or the other parameters are not valid
+     * @param maxResults    Maximum number of recognition results
+     * @throws An exception is raised if the language specified is not available or the other parameters are not valid
      */
-    public void listen(final Locale language, final String languageModel, final int maxResults) throws Exception
-    {
+    public void listen(final Locale language, final String languageModel, final int maxResults) throws Exception {
         checkASRPermission();
 
-        if((languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM) || languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)) && (maxResults>=0))
-        {
+        if ((languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM) || languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)) && (maxResults >= 0)) {
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
             // Specify the calling package to identify the application
@@ -156,8 +154,7 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
 
             myASR.startListening(intent);
 
-        }
-        else {
+        } else {
             Log.e(LOGTAG, "Invalid params to listen method");
             throw new Exception("Invalid params to listen method"); //If the input parameters are not valid, it throws an exception
         }
@@ -165,12 +162,10 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
     }
 
 
-
-
     /**
      * Stops listening to the user
      */
-    public void stopListening(){
+    public void stopListening() {
         myASR.stopListening();
     }
 
@@ -190,20 +185,18 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      */
     @Override
     public void onResults(Bundle results) {
-        if(results!=null){
+        if (results != null) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {  //Checks the API level because the confidence scores are supported only from API level 14:
                 //http://developer.android.com/reference/android/speech/SpeechRecognizer.html#CONFIDENCE_SCORES
                 //Processes the recognition results and their confidences
                 processAsrResults(results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION), results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES));
                 //											Attention: It is not RecognizerIntent.EXTRA_RESULTS, that is for intents (see the ASRWithIntent app)
-            }
-            else {
+            } else {
                 //Processes the recognition results and their confidences
                 processAsrResults(results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION), null);
             }
-        }
-        else
+        } else
             //Processes recognition errors
             processAsrError(SpeechRecognizer.ERROR_NO_MATCH);
     }
@@ -237,35 +230,40 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      * @see android.speech.RecognitionListener#onBeginningOfSpeech()
      */
     @Override
-    public void onBeginningOfSpeech() {	}
+    public void onBeginningOfSpeech() {
+    }
 
     /*
      * (non-Javadoc)
      * @see android.speech.RecognitionListener#onBufferReceived(byte[])
      */
     @Override
-    public void onBufferReceived(byte[] buffer) { }
+    public void onBufferReceived(byte[] buffer) {
+    }
 
     /*
      * (non-Javadoc)
      * @see android.speech.RecognitionListener#onBeginningOfSpeech()
      */
     @Override
-    public void onEndOfSpeech() {}
+    public void onEndOfSpeech() {
+    }
 
     /*
      * (non-Javadoc)
      * @see android.speech.RecognitionListener#onEvent(int, android.os.Bundle)
      */
     @Override
-    public void onEvent(int arg0, Bundle arg1) {}
+    public void onEvent(int arg0, Bundle arg1) {
+    }
 
     /*
      * (non-Javadoc)
      * @see android.speech.RecognitionListener#onPartialResults(android.os.Bundle)
      */
     @Override
-    public void onPartialResults(Bundle arg0) {}
+    public void onPartialResults(Bundle arg0) {
+    }
 
     /*
      * (non-Javadoc)
@@ -277,10 +275,11 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
 
     /**
      * Processes the ASR recognition results
-     * @param nBestList	List of the N recognition results
+     *
+     * @param nBestList        List of the N recognition results
      * @param nBestConfidences List of the N corresponding confidences
      */
-    public abstract void processAsrResults(ArrayList<String> nBestList, float [] nBestConfidences);
+    public abstract void processAsrResults(ArrayList<String> nBestList, float[] nBestConfidences);
 
     /**
      * Processes the situation in which the ASR engine is ready to listen
@@ -289,11 +288,10 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
 
     /**
      * Processes ASR error situations
+     *
      * @param errorCode code of the error (constant of the {@link SpeechRecognizer} class
      */
     public abstract void processAsrError(int errorCode);
-
-
 
 
 /**********************************************************************************************************************************************************************
@@ -312,9 +310,8 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      */
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
-    public void setTTS()
-    {
-        myTTS = new TextToSpeech(ctx,(OnInitListener) this);
+    public void setTTS() {
+        myTTS = new TextToSpeech(ctx, (OnInitListener) this);
 
         /*
          * The listener for the TTS events varies depending on the Android version used:
@@ -322,10 +319,8 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
          * 15 or earlier, it is necessary to use the deprecated OnUtteranceCompletedListener
          */
 
-        if (Build.VERSION.SDK_INT >= 15)
-        {
-            myTTS.setOnUtteranceProgressListener(new UtteranceProgressListener()
-            {
+        if (Build.VERSION.SDK_INT >= 15) {
+            myTTS.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                 @Override
                 public void onDone(String utteranceId) //TTS finished synthesizing
                 {
@@ -344,15 +339,11 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
                     onTTSStart(utteranceId);
                 }
             });
-        }
-        else
-        {
-            myTTS.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener()
-            {
+        } else {
+            myTTS.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
                 @Override
-                public void onUtteranceCompleted(final String utteranceId)
-                {
-                    onTTSDone(utteranceId);			//Earlier SDKs only consider the onTTSDone event
+                public void onUtteranceCompleted(final String utteranceId) {
+                    onTTSDone(utteranceId);            //Earlier SDKs only consider the onTTSDone event
                 }
             });
         }
@@ -381,24 +372,21 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      * If any of the codes are not valid, it uses the default language
      *
      * @param languageCode a String representing the language code, e.g. EN
-     * @param countryCode a String representing the country code for the language used, e.g. US.
+     * @param countryCode  a String representing the country code for the language used, e.g. US.
      * @throws Exception when the codes supplied cannot be used and the default locale is selected
      */
-    public void setLocale(String languageCode, String countryCode) throws Exception{
-        if(languageCode==null)
-        {
+    public void setLocale(String languageCode, String countryCode) throws Exception {
+        if (languageCode == null) {
             setLocale();
             throw new Exception("Language code was not provided, using default locale");
-        }
-        else{
-            if(countryCode==null)
+        } else {
+            if (countryCode == null)
                 setLocale(languageCode);
             else {
                 Locale lang = new Locale(languageCode, countryCode);
-                if (myTTS.isLanguageAvailable(lang) == TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE )
+                if (myTTS.isLanguageAvailable(lang) == TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE)
                     myTTS.setLanguage(lang);
-                else
-                {
+                else {
                     setLocale();
                     throw new Exception("Language or country code not supported, using default locale");
                 }
@@ -413,18 +401,15 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      * @param languageCode a String representing the language code, e.g. EN
      * @throws Exception when the code supplied cannot be used and the default locale is selected
      */
-    public void setLocale(String languageCode) throws Exception{
-        if(languageCode==null)
-        {
+    public void setLocale(String languageCode) throws Exception {
+        if (languageCode == null) {
             setLocale();
             throw new Exception("Language code was not provided, using default locale");
-        }
-        else {
+        } else {
             Locale lang = new Locale(languageCode);
             if (myTTS.isLanguageAvailable(lang) != TextToSpeech.LANG_MISSING_DATA && myTTS.isLanguageAvailable(lang) != TextToSpeech.LANG_NOT_SUPPORTED)
                 myTTS.setLanguage(lang);
-            else
-            {
+            else {
                 setLocale();
                 throw new Exception("Language code not supported, using default locale");
             }
@@ -434,7 +419,7 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
     /**
      * Sets the default language of the device as locale for speech synthesis
      */
-    public void setLocale(){
+    public void setLocale() {
         myTTS.setLanguage(Locale.getDefault());
     }
 
@@ -443,12 +428,12 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      * it it is not available)
      *
      * @param languageCode language for the TTS, e.g. EN
-     * @param countryCode country for the TTS, e.g. US
-     * @param text string to be synthesized
-     * @param id integer that identifies the prompt uniquely
+     * @param countryCode  country for the TTS, e.g. US
+     * @param text         string to be synthesized
+     * @param id           integer that identifies the prompt uniquely
      * @throws Exception when the codes supplied cannot be used and the default locale is selected
      */
-    public void speak(String text, String languageCode, String countryCode, Integer id) throws Exception{
+    public void speak(String text, String languageCode, String countryCode, Integer id) throws Exception {
         setLocale(languageCode, countryCode);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id.toString());
@@ -460,11 +445,11 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      * if it is not available)
      *
      * @param languageCode language for the TTS, e.g. EN
-     * @param text string to be synthesized
-     * @param id integer that identifies the prompt uniquely
+     * @param text         string to be synthesized
+     * @param id           integer that identifies the prompt uniquely
      * @throws Exception when the code supplied cannot be used and the default locale is selected
      */
-    public void speak(String text, String languageCode, Integer id) throws Exception{
+    public void speak(String text, String languageCode, Integer id) throws Exception {
         setLocale(languageCode);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id.toString());
@@ -475,9 +460,9 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      * Synthesizes a text using the default language of the device
      *
      * @param text string to be synthesized
-     * @param id integer that identifies the prompt uniquely
+     * @param id   integer that identifies the prompt uniquely
      */
-    public void speak(String text, Integer id){
+    public void speak(String text, Integer id) {
         setLocale();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id.toString());
@@ -487,8 +472,8 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
     /**
      * Stops the synthesizer if it is speaking
      */
-    public void stop(){
-        if(myTTS.isSpeaking())
+    public void stop() {
+        if (myTTS.isSpeaking())
             myTTS.stop();
     }
 
@@ -496,10 +481,10 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      * Stops the speech synthesis and recognition engines. It is important to call it, as
      * it releases the native resources used.
      */
-    public void shutdown(){
+    public void shutdown() {
         myTTS.stop();
         myTTS.shutdown();
-        myTTS=null;			/*
+        myTTS = null;			/*
 		 						This is necessary in order to force the creation of a new TTS instance after shutdown.
 		 						It is useful for handling runtime changes such as a change in the orientation of the device,
 		 						as it is necessary to create a new instance with the new context.
@@ -507,7 +492,7 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
 							*/
         myASR.stopListening();
         myASR.destroy();
-        myASR=null;
+        myASR = null;
     }
 
     /*
@@ -518,16 +503,12 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
      */
     @Override
     public void onInit(int status) {
-        if(status != TextToSpeech.ERROR){
+        if (status != TextToSpeech.ERROR) {
             setLocale();
-        }
-        else
-        {
+        } else {
             Log.e(LOGTAG, "Error creating the TTS");
         }
 
     }
 
 }
-
-
