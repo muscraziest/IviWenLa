@@ -40,5 +40,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:design:27.1.1'
     implementation files('libs/volley.jar')
-    implementation files('libs/commons-codec-1.10.jar')
+
 }
